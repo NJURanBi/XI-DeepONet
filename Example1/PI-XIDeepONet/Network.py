@@ -38,21 +38,21 @@ class XIDeepONet(nn.Module):
         out = self.actv2(self.b_phi_linear1(out))
         out = self.actv2(self.b_phi_linear2(out))
         out = self.actv2(self.b_phi_linear3(out))
-        branch_phi = self.actv2(self.b_phi_linear4(out))
+        branch_phi = self.b_phi_linear4(out)
 
         f_tr = f_tr
         out = self.actv2(self.b_f_linear_input(f_tr))
         out = self.actv2(self.b_f_linear1(out))
         out = self.actv2(self.b_f_linear2(out))
         out = self.actv2(self.b_f_linear3(out))
-        branch_f = self.actv2(self.b_f_linear4(out))
+        branch_f = self.b_f_linear4(out)
 
         y = x_tr
         out = self.actv1(self.t_linear_input(y))
         out = self.actv1(self.t_linear1(out))
         out = self.actv1(self.t_linear2(out))
         out = self.actv1(self.t_linear3(out))
-        trunk = self.actv1(self.t_linear4(out))
+        trunk = self.t_linear4(out)
 
         output = torch.sum(branch_f * branch_phi * trunk, dim=-1, keepdim=True) + self.p['bias']
 
@@ -108,3 +108,4 @@ class DeepONet(nn.Module):
         params = nn.ParameterDict()
         params['bias'] = nn.Parameter(torch.zeros([1]))
         return params
+
